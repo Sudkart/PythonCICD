@@ -1,5 +1,11 @@
 
+from flask import Flask
 
-print("Welcome to Python CI CD")
+app = Flask(__name__)
 
-print("Update Code Python")
+@app.route('/')
+def hello_world():
+    return 'Welcome to Python CI CD!'
+
+if __name__ == '__main__':
+    app.run()
