@@ -15,7 +15,13 @@
     </div>
     <br></br>
     <div style="text-align: center">
-        <h1>The input text is classified as:</h1><span id="sessionItemValue"></span>
+        <h1>The input text <span id="ïnputText" style="color: orangered;"></span> is classified as:</h1>
+        <div style="border: 1px solid black; margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;">
+          <h1><span id="sessionItemValue"></span></h1>
+        </div>
     </div>
     <!-- Add any other content below if needed -->
   </body>
@@ -25,11 +31,12 @@
 <script>
   function submitData() {
     // Get the input value from the text box
-    const inputValue = document.getElementById("textbox").value;
-    inputValue = inputValue.replace("(@[A-Za-z0-9_]+)|[^\w\s\n]|#|http\S+", "", inputValue.lower())
-    alert("Input Value: " + inputValue);
+    var inputValue = document.getElementById("textbox").value;
+    inputValue = inputValue.replace("(@[A-Za-z0-9_]+)|[^\w\s\n]|#|http\S+", "")
+    inputValue = inputValue.toLowerCase()
     sessionStorage.setItem("tweetClassified","Relevant")
     document.getElementById('sessionItemValue').textContent = sessionStorage.getItem('tweetClassified');
+    document.getElementById('ïnputText').textContent = inputValue;
     // Add any other logic here to handle the submitted data
   }
 </script>
