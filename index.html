@@ -1,0 +1,35 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask App</title>
+  </head>
+  <body>
+    <!-- Header with big label -->
+    <h1 style="text-align: center; font-size: 32px">Text Tweet Classifier</h1>
+
+    <!-- Text box and button -->
+    <div style="text-align: center">
+      <input type="text" id="textbox" />
+      <button onclick="submitData()">Submit</button>
+    </div>
+    <br></br>
+    <div style="text-align: center">
+        <h1>The input text is classified as:</h1><span id="sessionItemValue"></span>
+    </div>
+    <!-- Add any other content below if needed -->
+  </body>
+</html>
+
+<!-- Add your JavaScript code if needed -->
+<script>
+  function submitData() {
+    // Get the input value from the text box
+    const inputValue = document.getElementById("textbox").value;
+    inputValue = inputValue.replace("(@[A-Za-z0-9_]+)|[^\w\s\n]|#|http\S+", "", inputValue.lower())
+    alert("Input Value: " + inputValue);
+    sessionStorage.setItem("tweetClassified","Relevant")
+    document.getElementById('sessionItemValue').textContent = sessionStorage.getItem('tweetClassified');
+    // Add any other logic here to handle the submitted data
+  }
+</script>
