@@ -11,7 +11,7 @@
 
       <!-- Text box and button -->
       <div style="text-align: center">
-        <input type="text" id="textbox" />
+        <input type="text" id="textbox" required />
         <button id="predictButton">Submit</button>
       </div>
       <br></br>
@@ -61,9 +61,11 @@
                 $.post("/predict", {input_text: inputText}, function (data) {
                     if ('error' in data) {
                         $("#result").text("Error: " + data.error);
+                        $("#textbox").val("")
                     } else {
                         $("#result").text("Prediction: " + data.result);
                         document.getElementById('sessionItemValue').textContent = data.result>0.5?"Relevant":"Not Relevant";
+                        $("#textbox").val("")
                     }
                 });
             });
