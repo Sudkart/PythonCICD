@@ -5,38 +5,66 @@
     <title>Flask App</title>
   </head>
   <body>
-    <!-- Header with big label -->
-    <h1 style="text-align: center; font-size: 32px">Text Tweet Classifier</h1>
+    <form id="predictionForm">
+      <!-- Header with big label -->
+      <h1 style="text-align: center; font-size: 32px">Text Tweet Classifier</h1>
 
-    <!-- Text box and button -->
-    <div style="text-align: center">
-      <input type="text" id="textbox" />
-      <button onclick="submitData()">Submit</button>
-    </div>
-    <br></br>
-    <div style="text-align: center">
-        <h1>The input text <span id="ïnputText" style="color: orangered;"></span> is classified as:</h1>
-        <div style="border: 1px solid black; margin: auto;
-        width: 50%;
-        border: 3px solid green;
-        padding: 10px;">
-          <h1><span id="sessionItemValue"></span></h1>
-        </div>
-    </div>
-    <!-- Add any other content below if needed -->
+      <!-- Text box and button -->
+      <div style="text-align: center">
+        <input type="text" id="textbox" />
+        <button id="predictButton">Submit</button>
+      </div>
+      <br></br>
+      <div style="text-align: center">
+          <h1>The input text <span id="ïnputText" style="color: orangered;"></span> is classified as:</h1>
+          <div style="border: 1px solid black; margin: auto;
+          width: 50%;
+          border: 3px solid green;
+          padding: 10px;">
+            <h1><span id="sessionItemValue"></span></h1>
+          </div>
+      </div>
+    </form>
   </body>
 </html>
 
 <!-- Add your JavaScript code if needed -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+
   function submitData() {
     // Get the input value from the text box
     var inputValue = document.getElementById("textbox").value;
     inputValue = inputValue.replace("(@[A-Za-z0-9_]+)|[^\w\s\n]|#|http\S+", "")
     inputValue = inputValue.toLowerCase()
+    $.post("/predict", {input_text: inputValue}, function (data) {
+                    if ('error' in data) {
+                        $("#result").text("Error: " + data.error);
+                    } else {
+                      console.log(data.result)
+                        $("#result").text("Prediction: " + data.result);
+                    }
+                });
     sessionStorage.setItem("tweetClassified","Relevant")
-    document.getElementById('sessionItemValue').textContent = sessionStorage.getItem('tweetClassified');
+    document.getElementById('sessionItemValue').textContent = data.result>0.5?"Relevant":"Not Relevant";
     document.getElementById('ïnputText').textContent = inputValue;
-    // Add any other logic here to handle the submitted data
+    
   }
+
+  $(document).ready(function () {
+            $("#predictButton").click(function (event) {
+              event.preventDefault(); // Prevent default form submission
+                var inputText = $("#textbox").val();
+
+                $.post("/predict", {input_text: inputText}, function (data) {
+                    if ('error' in data) {
+                        $("#result").text("Error: " + data.error);
+                    } else {
+                        $("#result").text("Prediction: " + data.result);
+                        document.getElementById('sessionItemValue').textContent = data.result>0.5?"Relevant":"Not Relevant";
+                    }
+                });
+            });
+        });
 </script>
