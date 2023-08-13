@@ -56,7 +56,7 @@
             $("#predictButton").click(function (event) {
               event.preventDefault(); // Prevent default form submission
                 var inputText = $("#textbox").val();
-
+                document.getElementById('ïnputText').textContent = inputText;
                 $.post("/predict", {input_text: inputText}, function (data) {
                     if ('error' in data) {
                         $("#result").text("Error: " + data.error);
