@@ -24,7 +24,7 @@ def predict():
         tokenizer.fit_on_texts([input_text])
         sequences = tokenizer.texts_to_sequences([input_text])
         padded_sequences = pad_sequences(sequences,padding='post', maxlen=tokenizer.num_words) 
-        # Make a prediction using the loaded model
+        # Ensure the padded_sequences shape matches the expected shape
         prediction = model.predict(padded_sequences)
 
         # Convert ndarray to a serializable list
