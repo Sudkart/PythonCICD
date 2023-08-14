@@ -60,11 +60,10 @@
                 document.getElementById('ïnputText').textContent = inputText;
                 $.post("/predict", {input_text: inputText}, function (data) {
                     if ('error' in data) {
-                        $("#result").text("Error: " + data.error);
                         $("#textbox").val("")
                     } else {
-                        $("#result").text("Prediction: " + data.result);
-                        document.getElementById('sessionItemValue').textContent = data.result>0.5?"Relevant":"Not Relevant";
+                      console.log(data.result[0][0])
+                        document.getElementById('sessionItemValue').textContent = data.result[0][0]>0.5?"Relevant":"Not Relevant";
                         $("#textbox").val("")
                     }
                 });
